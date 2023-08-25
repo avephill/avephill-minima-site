@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: base
 title: About
 permalink: /
 image: /assets/images/headshot4.jpg
