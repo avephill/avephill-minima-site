@@ -23,5 +23,4 @@ image: /assets/images/headshot4.jpg
 
 <br>
 
-
 {% include social.html %}
