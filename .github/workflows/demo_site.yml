@@ -1,8 +1,11 @@
 name: Build and Deploy Demo Site
 
 on:
+  push:
+    branches:
+      - main
   # Run this workflow manually from the Actions tab
-  workflow_dispatch:
+  # workflow_dispatch:
 
 jobs:
   deploy_demo_site:
@@ -17,10 +20,10 @@ jobs:
         with:
           repository: jekyll/minima
           ref: demo-site
-      - name: Set up Ruby 2.7
+      - name: Set up Ruby 3.1 #2.7
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 3.1 #2.7
           bundler-cache: true
       - name: Clone target branch
         run: |
