@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Water Tank Height Sensor | Avery P. Hill</title>
+<meta name="generator" content="Jekyll v3.9.3" />
+<meta property="og:title" content="Water Tank Height Sensor" />
+<meta name="author" content="Avery Hill" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="My grandparents live out in the woods, and are grappling with the largely anthropogenic drought in CA. They’ve been rationing their water, but haven’t had a good sense of how much water is available at a given time besides knocking on the side of the well-water tank and exclaiming “we’ve got water!” or the dour alternative. I looked into buying pre-built water tank sensors, but they were prohibitively expensive, so I figured we could make our own." />
+<meta property="og:description" content="My grandparents live out in the woods, and are grappling with the largely anthropogenic drought in CA. They’ve been rationing their water, but haven’t had a good sense of how much water is available at a given time besides knocking on the side of the well-water tank and exclaiming “we’ve got water!” or the dour alternative. I looked into buying pre-built water tank sensors, but they were prohibitively expensive, so I figured we could make our own." />
+<link rel="canonical" href="http://localhost:4000/2021/08/21/water-tank-sensor.html" />
+<meta property="og:url" content="http://localhost:4000/2021/08/21/water-tank-sensor.html" />
+<meta property="og:site_name" content="Avery P. Hill" />
+<meta property="og:image" content="http://localhost:4000/assets/images/watertank-sensorcovered.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-08-21T00:00:00-07:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/assets/images/watertank-sensorcovered.png" />
+<meta property="twitter:title" content="Water Tank Height Sensor" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Avery Hill"},"dateModified":"2021-08-21T00:00:00-07:00","datePublished":"2021-08-21T00:00:00-07:00","description":"My grandparents live out in the woods, and are grappling with the largely anthropogenic drought in CA. They’ve been rationing their water, but haven’t had a good sense of how much water is available at a given time besides knocking on the side of the well-water tank and exclaiming “we’ve got water!” or the dour alternative. I looked into buying pre-built water tank sensors, but they were prohibitively expensive, so I figured we could make our own.","headline":"Water Tank Height Sensor","image":"http://localhost:4000/assets/images/watertank-sensorcovered.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2021/08/21/water-tank-sensor.html"},"url":"http://localhost:4000/2021/08/21/water-tank-sensor.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Avery P. Hill" />
+</head><body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Avery P. Hill</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/research">Research</a>
+<!-- <a class="page-link" href="/projects">DIY Projects</a> -->
+<a class="page-link" href="/resources">Resources</a>
+<a class="page-link" href="/about">About</a>
+<!-- This is for automatic navigation bar -->
+          <!--<a class="page-link" href="/about/">About</a><a class="page-link" href="/">About</a><a class="page-link" href="/projects.html">DIY Projects</a><a class="page-link" href="/research.html">Research</a><a class="page-link" href="/resources.html">Resources</a>-->
+        </div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Water Tank Height Sensor</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2021-08-21T00:00:00-07:00" itemprop="datePublished">Aug 21, 2021
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>My grandparents live out in the woods, and are grappling with the <a href="linktopaper">largely anthropogenic</a> drought in CA. They’ve been rationing their water, but haven’t had a good sense of how much water is available at a given time besides knocking on the side of the well-water tank and exclaiming “we’ve got water!” or the dour alternative. I looked into buying pre-built water tank sensors, but they were prohibitively expensive, so I figured we could make our own.</p>
+
+<p>We wanted a continuous stream of water tank data, easily accessible from our phones. To do this, we needed to build sensors for detecting the water levels in the various tanks, and a smarthome server to receive all of the sensor outputs, aggregate them, and make them accessible on our phones/computers.</p>
+
+<p>We’ll start with the sensor, then setup the homeassistant server and integrate the sensor</p>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+  <li><a href="#the-sensor">The Sensor</a></li>
+  <li><a href="#smarthome-server">Smarthome Server</a></li>
+</ol>
+
+<p>An exhaustive list of all materials used in this project (total = $77, $61 of which is the raspberry pi home server)</p>
+<ul>
+  <li><a href="https://www.aliexpress.com/item/32782666206.html?spm=a2g0o.productlist.0.0.70eb15bfyGLMbN&amp;algo_pvid=3678810f-1bbc-47ad-ad60-4bfd83280a1b&amp;algo_exp_id=3678810f-1bbc-47ad-ad60-4bfd83280a1b-0&amp;pdp_ext_f=%7B%22sku_id%22%3A%2263087734925%22%7D">ESP-12E Development Board ($3)</a></li>
+  <li><a href="https://www.aliexpress.com/item/1005002046765371.html?spm=a2g0o.productlist.0.0.6bce128bHvV1Xy&amp;algo_pvid=45b12b05-9dfa-4b86-974a-0db7bec9f996&amp;algo_exp_id=45b12b05-9dfa-4b86-974a-0db7bec9f996-2&amp;pdp_ext_f=%7B%22sku_id%22%3A%2212000018543604511%22%7D">DuPont Wires ($3 for a ton)</a> (socket-socket, otherwise known as female-female)</li>
+  <li><a href="https://www.aliexpress.com/item/2041955317.html?spm=a2g0o.productlist.0.0.236168e5u3hRd9&amp;algo_pvid=10dc0f68-7836-48e1-8b24-d182653bf385&amp;algo_exp_id=10dc0f68-7836-48e1-8b24-d182653bf385-0&amp;pdp_ext_f=%7B%22sku_id%22%3A%2212000018273195310%22%7D">Ultrasonic HC-SR04 Distance Sensor ($1)</a></li>
+  <li><a href="https://www.monoprice.com/product?p_id=4867">microUSB charger ($1)</a></li>
+  <li><a href="https://www.pishop.us/product/raspberry-pi-4-model-b-2gb/">Raspberry Pi 4, 2 GB memory ($45)</a></li>
+  <li><a href="https://www.banggood.com/Mini-128GB-CLASS10-Memory-TF-Card-Flash-Card-Smart-Card-16GB-32GB-64GB-for-Mobile-Phone-Laptop-p-1727878.html?cur_warehouse=CN&amp;ID=3150&amp;rmmds=search">microSD ($8)</a></li>
+  <li><a href="https://www.banggood.com/USB-2_0-Multi-Card-Reader-TF-Card-OTG-Reader-USB2_0-Micro-USB-Interface-480MB-or-S-for-Smartphone-p-1553700.html?cur_warehouse=CN&amp;rmmds=search">microSD –&gt; SD/USB converter ($8)</a></li>
+  <li><a href="https://www.monoprice.com/product?p_id=31201">USB-C charger ($8)</a></li>
+</ul>
+
+<h2 id="the-sensor">The Sensor</h2>
+<p>Materials:</p>
+<ul>
+  <li>ESP-12E Development Board</li>
+  <li>DuPont Wires (socket-socket, otherwise known as female-female)</li>
+  <li>Ultrasonic HC-SR04 Distance Sensor</li>
+  <li>microUSB charger</li>
+</ul>
+
+<p>These are all the parts you’ll need for the sensor:</p>
+<p align="center"><img src="/assets/images/watertank-sensorparts.png" width="50%" /></p>
+
+<p>Here’s the wiring diagram:</p>
+<p align="center"><img src="/assets/images/watertank-wirediagram.png" width="30%" /></p>
+
+<p>Here’s what it looks like wired up:</p>
+<p align="center"><img src="/assets/images/watertank-sensorwired.png" width="55%" /></p>
+
+<p>When I ‘water proof’ it, it is unexpectedly and impossibly cute (the nodemcu board is detached so I can feed it through the hole I put in the tank):</p>
+<p align="center"><img src="/assets/images/watertank-sensorcovered.png" width="40%" /></p>
+
+<p>You can see the white ballon mounted next to the tank input pipe here, carefully such that the sensor is perpindicular to the water.</p>
+<p align="center"><img src="/assets/images/watertank-mounted.png" width="50%" /></p>
+
+<p>Here’s the hole and the wires out the back.</p>
+<p align="center"><img src="/assets/images/watertank-mountwires.png" width="30%" /></p>
+
+<p>Here’s our little conjuction of power cable and distance sensor wires and the nodemcu board, mounted to the side of the tank</p>
+<p align="center"><img src="/assets/images/watertank-assembly.png" width="30%" /></p>
+
+<p>Now we’ll setup the software for the sensor</p>
+
+<p>I’m assuming you have a unix system (linux or mac)
+open Terminal or some other terminal emulator and run the following</p>
+
+<p>I use pip as a python package manager. It should be installed by default with python3</p>
+
+<p>download the esphome package</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>esphome
+</code></pre></div></div>
+<p>Now we’re going to make a .yaml configuration file that will be used to flash the software onto the sensor.</p>
+
+<p>We’re gonna assume we name the config file ‘water.yaml’</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>esphome water.yaml wizard
+</code></pre></div></div>
+<p>Answer the questions like this if you got the exact sensor hardware I did:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>name <span class="o">[</span>water_level]<span class="o">)</span>: &lt;choose_a_name_for_water_sensor&gt;
+<span class="o">(</span>ESP32/ESP8266<span class="o">)</span>: ESP8266
+<span class="o">(</span>board<span class="o">)</span>: nodemcu
+<span class="o">(</span>ssid<span class="o">)</span>: &lt;your_wifi_network_name<span class="o">(</span>ssid<span class="o">)&gt;</span>
+<span class="o">(</span>PSK<span class="o">)</span>: &lt;your_wifi_password_<span class="o">(</span>wpa_key<span class="o">)&gt;</span>
+<span class="o">(</span>password<span class="o">)</span>: &lt;choose_a_password_for_flashing_sensor_if_you_want&gt;
+</code></pre></div></div>
+
+<p>Once this is done, ensure that your sensor is plugged in via USB and run</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>esphome water.yaml run
+</code></pre></div></div>
+
+<p>It compiled, but I received the following error</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>INFO Successfully compiled program.
+INFO Resolving IP address of barntank_sensor.local
+ERROR Error resolving IP address of barntank_sensor.local. Is it connected to WiFi?
+ERROR <span class="o">(</span>If this error persists, please <span class="nb">set </span>a static IP address: https://esphome.io/components/wifi.html#manual-ips<span class="o">)</span>
+ERROR Error resolving IP address: Error resolving address with mDNS: Did not respond. Maybe the device is offline., <span class="o">[</span>Errno 8] nodename nor servname provided, or not known
+</code></pre></div></div>
+<p>After about an hour of trouble shooting I realized it was because the microUSB cable I was using does not transfer data, it only charges devices, which is the case with <a href="https://www.quora.com/Are-some-USB-cables-for-power-only-no-data-Is-there-a-quick-way-to-tell-by-looking?share=1">some cheap cables</a>. After replacing the cable with another microUSB I had lying around, it worked.</p>
+
+<p>It’s gonna compile and take a few minutes. When prompted, select the option to flash over ‘serial’ i.e. USB.</p>
+
+<p>If you change the configuration and flash it again you can use the following command to flash it over wifi</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>esphome water.yaml run <span class="nt">--upload-port</span> XX.XX.XX.XX
+</code></pre></div></div>
+<p>where xx.xx.xx.xx is the IP address of the sensor (the IP of the sensor is reported after you flash it over USB the first time. Might be worth writing it down.)</p>
+
+<p>This is what my .yaml looks like</p>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">esphome</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">barntank_sensor</span>
+  <span class="na">platform</span><span class="pi">:</span> <span class="s">ESP8266</span>
+  <span class="na">board</span><span class="pi">:</span> <span class="s">nodemcu</span>
+
+<span class="c1"># Enable logging</span>
+<span class="na">logger</span><span class="pi">:</span>
+
+<span class="c1"># Enable Home Assistant API</span>
+<span class="na">api</span><span class="pi">:</span>
+  <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;choose_a_password_for_HomeAssistant&gt;</span>
+
+<span class="na">ota</span><span class="pi">:</span>
+  <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;choose_a_password_for_HomeAssistant&gt;</span>
+
+<span class="na">wifi</span><span class="pi">:</span>
+  <span class="na">ssid</span><span class="pi">:</span> <span class="s">&lt;your_wifi_network_name(ssid)&gt;</span>
+  <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;your_wifi_password_(wpa_key)&gt;</span>
+
+  <span class="c1"># Enable fallback hotspot (captive portal) in case wifi connection fails</span>
+  <span class="na">ap</span><span class="pi">:</span>
+    <span class="na">ssid</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Barntank</span><span class="nv"> </span><span class="s">Sensor</span><span class="nv"> </span><span class="s">Fallback</span><span class="nv"> </span><span class="s">Hotspot"</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s">&lt;auto_generated&gt;</span>
+
+
+<span class="na">captive_portal</span><span class="pi">:</span>
+
+<span class="na">sensor</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">platform</span><span class="pi">:</span> <span class="s">ultrasonic</span>
+    <span class="na">trigger_pin</span><span class="pi">:</span> <span class="s">D6</span>
+    <span class="na">echo_pin</span><span class="pi">:</span> <span class="s">D5</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Water</span><span class="nv"> </span><span class="s">Level"</span>
+    <span class="na">icon</span><span class="pi">:</span> <span class="s2">"</span><span class="s">mdi:water"</span>
+    <span class="na">update_interval</span><span class="pi">:</span> <span class="s">20s</span>
+    <span class="na">timeout</span><span class="pi">:</span> <span class="s">3m</span>
+    <span class="na">filters</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">filter_out</span><span class="pi">:</span> <span class="s">nan</span>
+    <span class="pi">-</span> <span class="na">lambda</span><span class="pi">:</span> <span class="s">return x * (-444.693) + 5000;</span> <span class="c1"># See Below for the Math I used</span>
+    <span class="pi">-</span> <span class="na">sliding_window_moving_average</span><span class="pi">:</span> <span class="c1"># This takes the mean of 3 measurements and sends the 3rd measurement to home assistant. </span>
+        <span class="na">window_size</span><span class="pi">:</span> <span class="m">3</span>
+        <span class="na">send_every</span><span class="pi">:</span> <span class="m">3</span>
+    <span class="na">unit_of_measurement</span><span class="pi">:</span> <span class="s2">"</span><span class="s">gallons"</span>
+
+</code></pre></div></div>
+
+<p>OK so the math to calculate the gallons (or whatever unit of volume) is going to be particular to your use.</p>
+
+<p>Our tank was a cylinder, so the formula for volume was</p>
+
+<p>$V = pi * r^2 * h$</p>
+
+<p>We measured:</p>
+
+<p>circumference = 8.33m</p>
+
+<p>diameter = 2.65</p>
+
+<p>height (when full) = 3.43m</p>
+
+<p>$r = diameter / (2 * pi) $</p>
+
+<p>So</p>
+
+<p>$V = pi * (diameter / (2 * pi))^2 * h$</p>
+
+<p>We’re looking for the Volume as a function of height, so we reduce the equation to volume and height.</p>
+
+<p>Because we’re putting the sensor above the water in the tank, $Volume_{Current} = Volume_{Max} - Volume_{Sensor\ Distance}$</p>
+
+<p>We know the volume of our tank is $8.93m^3$ gallons, so</p>
+
+<p>$Volume_{Current} = 8.93m^3 - pi * (diameter / (2 * pi))^2 * sensor\ distance$</p>
+
+<p>Your sensor distance is going to be some fixed distance above the water, so when the tank is full figure out what the $sensor\ distance$ is and adjust the constant such that both sides of the equation are equal when the tank is full.</p>
+
+<p>For me this simplifies to the values seen in the above code block.</p>
+
+<p>Flash/update the software on the sensor as often as you change the .yaml configuration.
+Now the sensor should be set up</p>
+
+<h2 id="smarthome-server">Smarthome Server</h2>
+<p>Materials:</p>
+<ul>
+  <li>Raspberry Pi 4, 2 GB memory</li>
+  <li>microSD</li>
+  <li>microSD –&gt; SD/USB converter</li>
+  <li>USB-C power cord</li>
+</ul>
+
+<p>This part is pretty easy, but opens up pandora’s box. There are so many things you <em>can</em> do. But to integrate our sensor it’s pretty easy.</p>
+
+<p>So we’re gonna install Home Assistant on a raspberry pi 4. You can install Home Assistant software on a bunch of different machines/computers, but raspberry pis are cheap and effective.</p>
+
+<p>You’re going to start by taking your microSD card and using the microSD converter and plugging it into your computer.</p>
+
+<p>Once you’ve got the microSD in, follow <a href="https://www.home-assistant.io/installation/raspberrypi/">this tutorial</a> for installing Home Assistant. It says to use Balena Etcher but you can also use <a href="https://www.raspberrypi.org/software/">Raspberry Pi Imager</a>, which is what I used.</p>
+
+<p>Once you set up home assistant you should find the sensor under the ‘configuration’ menu.</p>
+
+<p align="center"><img src="/assets/images/watertank-sensor_configure.png" width="60%" /></p>
+
+<p>Now you can customize how to display the sensor data in your Home Assistant dashboard!</p>
+
+
+  </div><a class="u-url" href="/2021/08/21/water-tank-sensor.html" hidden></a>
+</article>
+
+      </div>
+    </main>
+    
+  </body>
+
+</html>
+
+

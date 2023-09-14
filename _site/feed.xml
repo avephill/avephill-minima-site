@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-14T16:32:40-07:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Avery P. Hill</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</subtitle><author><name>Avery Hill</name><email>apaytonhill@gmail.com</email></author><entry><title type="html">Water Tank Height Sensor</title><link href="http://localhost:4000/2021/08/21/water-tank-sensor.html" rel="alternate" type="text/html" title="Water Tank Height Sensor" /><published>2021-08-21T00:00:00-07:00</published><updated>2021-08-21T00:00:00-07:00</updated><id>http://localhost:4000/2021/08/21/water-tank-sensor</id><content type="html" xml:base="http://localhost:4000/2021/08/21/water-tank-sensor.html">&lt;p&gt;My grandparents live out in the woods, and are grappling with the &lt;a href=&quot;linktopaper&quot;&gt;largely anthropogenic&lt;/a&gt; drought in CA. They’ve been rationing their water, but haven’t had a good sense of how much water is available at a given time besides knocking on the side of the well-water tank and exclaiming “we’ve got water!” or the dour alternative. I looked into buying pre-built water tank sensors, but they were prohibitively expensive, so I figured we could make our own.&lt;/p&gt;
+
+&lt;p&gt;We wanted a continuous stream of water tank data, easily accessible from our phones. To do this, we needed to build sensors for detecting the water levels in the various tanks, and a smarthome server to receive all of the sensor outputs, aggregate them, and make them accessible on our phones/computers.&lt;/p&gt;
+
+&lt;p&gt;We’ll start with the sensor, then setup the homeassistant server and integrate the sensor&lt;/p&gt;
+
+&lt;h2 id=&quot;table-of-contents&quot;&gt;Table of Contents&lt;/h2&gt;
+&lt;ol&gt;
+  &lt;li&gt;&lt;a href=&quot;#the-sensor&quot;&gt;The Sensor&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#smarthome-server&quot;&gt;Smarthome Server&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;An exhaustive list of all materials used in this project (total = $77, $61 of which is the raspberry pi home server)&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.aliexpress.com/item/32782666206.html?spm=a2g0o.productlist.0.0.70eb15bfyGLMbN&amp;amp;algo_pvid=3678810f-1bbc-47ad-ad60-4bfd83280a1b&amp;amp;algo_exp_id=3678810f-1bbc-47ad-ad60-4bfd83280a1b-0&amp;amp;pdp_ext_f=%7B%22sku_id%22%3A%2263087734925%22%7D&quot;&gt;ESP-12E Development Board ($3)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.aliexpress.com/item/1005002046765371.html?spm=a2g0o.productlist.0.0.6bce128bHvV1Xy&amp;amp;algo_pvid=45b12b05-9dfa-4b86-974a-0db7bec9f996&amp;amp;algo_exp_id=45b12b05-9dfa-4b86-974a-0db7bec9f996-2&amp;amp;pdp_ext_f=%7B%22sku_id%22%3A%2212000018543604511%22%7D&quot;&gt;DuPont Wires ($3 for a ton)&lt;/a&gt; (socket-socket, otherwise known as female-female)&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.aliexpress.com/item/2041955317.html?spm=a2g0o.productlist.0.0.236168e5u3hRd9&amp;amp;algo_pvid=10dc0f68-7836-48e1-8b24-d182653bf385&amp;amp;algo_exp_id=10dc0f68-7836-48e1-8b24-d182653bf385-0&amp;amp;pdp_ext_f=%7B%22sku_id%22%3A%2212000018273195310%22%7D&quot;&gt;Ultrasonic HC-SR04 Distance Sensor ($1)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.monoprice.com/product?p_id=4867&quot;&gt;microUSB charger ($1)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.pishop.us/product/raspberry-pi-4-model-b-2gb/&quot;&gt;Raspberry Pi 4, 2 GB memory ($45)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.banggood.com/Mini-128GB-CLASS10-Memory-TF-Card-Flash-Card-Smart-Card-16GB-32GB-64GB-for-Mobile-Phone-Laptop-p-1727878.html?cur_warehouse=CN&amp;amp;ID=3150&amp;amp;rmmds=search&quot;&gt;microSD ($8)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.banggood.com/USB-2_0-Multi-Card-Reader-TF-Card-OTG-Reader-USB2_0-Micro-USB-Interface-480MB-or-S-for-Smartphone-p-1553700.html?cur_warehouse=CN&amp;amp;rmmds=search&quot;&gt;microSD –&amp;gt; SD/USB converter ($8)&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.monoprice.com/product?p_id=31201&quot;&gt;USB-C charger ($8)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;the-sensor&quot;&gt;The Sensor&lt;/h2&gt;
+&lt;p&gt;Materials:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;ESP-12E Development Board&lt;/li&gt;
+  &lt;li&gt;DuPont Wires (socket-socket, otherwise known as female-female)&lt;/li&gt;
+  &lt;li&gt;Ultrasonic HC-SR04 Distance Sensor&lt;/li&gt;
+  &lt;li&gt;microUSB charger&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These are all the parts you’ll need for the sensor:&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/watertank-sensorparts.png&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s the wiring diagram:&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/watertank-wirediagram.png&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s what it looks like wired up:&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/watertank-sensorwired.png&quot; width=&quot;55%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;When I ‘water proof’ it, it is unexpectedly and impossibly cute (the nodemcu board is detached so I can feed it through the hole I put in the tank):&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/watertank-sensorcovered.png&quot; width=&quot;40%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;You can see the white ballon mounted next to the tank input pipe here, carefully such that the sensor is perpindicular to the water.&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/watertank-mounted.png&quot; width=&quot;50%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s the hole and the wires out the back.&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/watertank-mountwires.png&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here’s our little conjuction of power cable and distance sensor wires and the nodemcu board, mounted to the side of the tank&lt;/p&gt;
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/watertank-assembly.png&quot; width=&quot;30%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now we’ll setup the software for the sensor&lt;/p&gt;
+
+&lt;p&gt;I’m assuming you have a unix system (linux or mac)
+open Terminal or some other terminal emulator and run the following&lt;/p&gt;
+
+&lt;p&gt;I use pip as a python package manager. It should be installed by default with python3&lt;/p&gt;
+
+&lt;p&gt;download the esphome package&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;pip &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;esphome
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Now we’re going to make a .yaml configuration file that will be used to flash the software onto the sensor.&lt;/p&gt;
+
+&lt;p&gt;We’re gonna assume we name the config file ‘water.yaml’&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;esphome water.yaml wizard
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;Answer the questions like this if you got the exact sensor hardware I did:&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;name &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;water_level]&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: &amp;lt;choose_a_name_for_water_sensor&amp;gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ESP32/ESP8266&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: ESP8266
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;board&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: nodemcu
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ssid&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: &amp;lt;your_wifi_network_name&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;ssid&lt;span class=&quot;o&quot;&gt;)&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;PSK&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: &amp;lt;your_wifi_password_&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;wpa_key&lt;span class=&quot;o&quot;&gt;)&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;password&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;: &amp;lt;choose_a_password_for_flashing_sensor_if_you_want&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Once this is done, ensure that your sensor is plugged in via USB and run&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;esphome water.yaml run
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It compiled, but I received the following error&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;INFO Successfully compiled program.
+INFO Resolving IP address of barntank_sensor.local
+ERROR Error resolving IP address of barntank_sensor.local. Is it connected to WiFi?
+ERROR &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;If this error persists, please &lt;span class=&quot;nb&quot;&gt;set &lt;/span&gt;a static IP address: https://esphome.io/components/wifi.html#manual-ips&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+ERROR Error resolving IP address: Error resolving address with mDNS: Did not respond. Maybe the device is offline., &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;Errno 8] nodename nor servname provided, or not known
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;After about an hour of trouble shooting I realized it was because the microUSB cable I was using does not transfer data, it only charges devices, which is the case with &lt;a href=&quot;https://www.quora.com/Are-some-USB-cables-for-power-only-no-data-Is-there-a-quick-way-to-tell-by-looking?share=1&quot;&gt;some cheap cables&lt;/a&gt;. After replacing the cable with another microUSB I had lying around, it worked.&lt;/p&gt;
+
+&lt;p&gt;It’s gonna compile and take a few minutes. When prompted, select the option to flash over ‘serial’ i.e. USB.&lt;/p&gt;
+
+&lt;p&gt;If you change the configuration and flash it again you can use the following command to flash it over wifi&lt;/p&gt;
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;esphome water.yaml run &lt;span class=&quot;nt&quot;&gt;--upload-port&lt;/span&gt; XX.XX.XX.XX
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;p&gt;where xx.xx.xx.xx is the IP address of the sensor (the IP of the sensor is reported after you flash it over USB the first time. Might be worth writing it down.)&lt;/p&gt;
+
+&lt;p&gt;This is what my .yaml looks like&lt;/p&gt;
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;esphome&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;barntank_sensor&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;platform&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ESP8266&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;board&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;nodemcu&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Enable logging&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;logger&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# Enable Home Assistant API&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;api&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;choose_a_password_for_HomeAssistant&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;ota&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;choose_a_password_for_HomeAssistant&amp;gt;&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;wifi&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;ssid&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;your_wifi_network_name(ssid)&amp;gt;&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;your_wifi_password_(wpa_key)&amp;gt;&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# Enable fallback hotspot (captive portal) in case wifi connection fails&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;ap&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;ssid&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Barntank&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Sensor&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Fallback&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Hotspot&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;lt;auto_generated&amp;gt;&lt;/span&gt;
+
+
+&lt;span class=&quot;na&quot;&gt;captive_portal&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;sensor&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;platform&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ultrasonic&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;trigger_pin&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;D6&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;echo_pin&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;D5&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Water&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Level&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;mdi:water&quot;&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;update_interval&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;20s&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;timeout&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;3m&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;filters&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;filter_out&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;nan&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;lambda&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;return x * (-444.693) + 5000;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# See Below for the Math I used&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;sliding_window_moving_average&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;# This takes the mean of 3 measurements and sends the 3rd measurement to home assistant. &lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;window_size&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;send_every&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;3&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;unit_of_measurement&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;gallons&quot;&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;OK so the math to calculate the gallons (or whatever unit of volume) is going to be particular to your use.&lt;/p&gt;
+
+&lt;p&gt;Our tank was a cylinder, so the formula for volume was&lt;/p&gt;
+
+&lt;p&gt;$V = pi * r^2 * h$&lt;/p&gt;
+
+&lt;p&gt;We measured:&lt;/p&gt;
+
+&lt;p&gt;circumference = 8.33m&lt;/p&gt;
+
+&lt;p&gt;diameter = 2.65&lt;/p&gt;
+
+&lt;p&gt;height (when full) = 3.43m&lt;/p&gt;
+
+&lt;p&gt;$r = diameter / (2 * pi) $&lt;/p&gt;
+
+&lt;p&gt;So&lt;/p&gt;
+
+&lt;p&gt;$V = pi * (diameter / (2 * pi))^2 * h$&lt;/p&gt;
+
+&lt;p&gt;We’re looking for the Volume as a function of height, so we reduce the equation to volume and height.&lt;/p&gt;
+
+&lt;p&gt;Because we’re putting the sensor above the water in the tank, $Volume_{Current} = Volume_{Max} - Volume_{Sensor\ Distance}$&lt;/p&gt;
+
+&lt;p&gt;We know the volume of our tank is $8.93m^3$ gallons, so&lt;/p&gt;
+
+&lt;p&gt;$Volume_{Current} = 8.93m^3 - pi * (diameter / (2 * pi))^2 * sensor\ distance$&lt;/p&gt;
+
+&lt;p&gt;Your sensor distance is going to be some fixed distance above the water, so when the tank is full figure out what the $sensor\ distance$ is and adjust the constant such that both sides of the equation are equal when the tank is full.&lt;/p&gt;
+
+&lt;p&gt;For me this simplifies to the values seen in the above code block.&lt;/p&gt;
+
+&lt;p&gt;Flash/update the software on the sensor as often as you change the .yaml configuration.
+Now the sensor should be set up&lt;/p&gt;
+
+&lt;h2 id=&quot;smarthome-server&quot;&gt;Smarthome Server&lt;/h2&gt;
+&lt;p&gt;Materials:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Raspberry Pi 4, 2 GB memory&lt;/li&gt;
+  &lt;li&gt;microSD&lt;/li&gt;
+  &lt;li&gt;microSD –&amp;gt; SD/USB converter&lt;/li&gt;
+  &lt;li&gt;USB-C power cord&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;This part is pretty easy, but opens up pandora’s box. There are so many things you &lt;em&gt;can&lt;/em&gt; do. But to integrate our sensor it’s pretty easy.&lt;/p&gt;
+
+&lt;p&gt;So we’re gonna install Home Assistant on a raspberry pi 4. You can install Home Assistant software on a bunch of different machines/computers, but raspberry pis are cheap and effective.&lt;/p&gt;
+
+&lt;p&gt;You’re going to start by taking your microSD card and using the microSD converter and plugging it into your computer.&lt;/p&gt;
+
+&lt;p&gt;Once you’ve got the microSD in, follow &lt;a href=&quot;https://www.home-assistant.io/installation/raspberrypi/&quot;&gt;this tutorial&lt;/a&gt; for installing Home Assistant. It says to use Balena Etcher but you can also use &lt;a href=&quot;https://www.raspberrypi.org/software/&quot;&gt;Raspberry Pi Imager&lt;/a&gt;, which is what I used.&lt;/p&gt;
+
+&lt;p&gt;Once you set up home assistant you should find the sensor under the ‘configuration’ menu.&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;&lt;img src=&quot;/assets/images/watertank-sensor_configure.png&quot; width=&quot;60%&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now you can customize how to display the sensor data in your Home Assistant dashboard!&lt;/p&gt;</content><author><name>Avery Hill</name><email>apaytonhill@gmail.com</email></author><category term="programming" /><category term="electronics" /><summary type="html">My grandparents live out in the woods, and are grappling with the largely anthropogenic drought in CA. They’ve been rationing their water, but haven’t had a good sense of how much water is available at a given time besides knocking on the side of the well-water tank and exclaiming “we’ve got water!” or the dour alternative. I looked into buying pre-built water tank sensors, but they were prohibitively expensive, so I figured we could make our own.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/watertank-sensorcovered.png" /><media:content medium="image" url="http://localhost:4000/assets/images/watertank-sensorcovered.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Picture Frame</title><link href="http://localhost:4000/2021/03/18/picture-fame.html" rel="alternate" type="text/html" title="Picture Frame" /><published>2021-03-18T00:00:00-07:00</published><updated>2021-03-18T00:00:00-07:00</updated><id>http://localhost:4000/2021/03/18/picture-fame</id><content type="html" xml:base="http://localhost:4000/2021/03/18/picture-fame.html">&lt;p&gt;Here’s instructions for how I made a picture frame, along with a webapp to help facilitate the measurements for future picture frames.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;The tools I used are&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;ruler&lt;/li&gt;
+  &lt;li&gt;table saw&lt;/li&gt;
+  &lt;li&gt;miter saw&lt;/li&gt;
+  &lt;li&gt;band clamp&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Materials I used&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;scrap plank, 3/4” thick&lt;/li&gt;
+  &lt;li&gt;picture hanger&lt;/li&gt;
+  &lt;li&gt;plexiglass / glass&lt;/li&gt;
+  &lt;li&gt;cardboard&lt;/li&gt;
+  &lt;li&gt;wood glue&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://not_yet.net&quot; target=&quot;_blank&quot;&gt;Here’s the webapp&lt;/a&gt; where you can figure out particular measurements. The width I used for this frame was 1” and the picture size was 5” x 7”.
+First I cut a 1+5/16” piece 
+&lt;img src=&quot;/assets/images/frame1.png&quot; alt=&quot;Placeholder&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And then proceeded to cut two grooves in it, at 3/16” deep and 5/16” deep.
+&lt;img src=&quot;/assets/images/frame2.png&quot; alt=&quot;Placeholder&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then I turned the piece sideways, and cut to the depth of the 3/16” groove– cutting out the backside
+&lt;img src=&quot;/assets/images/frame3.png&quot; alt=&quot;Placeholder&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;I cut two slats to hold the picture frame in from the back instead
+&lt;img src=&quot;/assets/images/frame4.png&quot; alt=&quot;Placeholder&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Then glued the pieces together, clamped it with a band clamp, cut cardboard to 5” x 7”, and screwed in the picture hanger mount
+&lt;img src=&quot;/assets/images/frame5.png&quot; alt=&quot;Placeholder&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Cut a piece of plastic, plexiglass, glass, etc. and put it right on in
+&lt;img src=&quot;/assets/images/frame6.png&quot; alt=&quot;Placeholder&quot; /&gt;&lt;/p&gt;</content><author><name>Avery Hill</name><email>apaytonhill@gmail.com</email></author><category term="programming" /><category term="woodworking" /><summary type="html">Here’s instructions for how I made a picture frame, along with a webapp to help facilitate the measurements for future picture frames.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/frame6.png" /><media:content medium="image" url="http://localhost:4000/assets/images/frame6.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Large Hiking Dress</title><link href="http://localhost:4000/2020/06/17/hiking-dress.html" rel="alternate" type="text/html" title="Large Hiking Dress" /><published>2020-06-17T00:00:00-07:00</published><updated>2020-06-17T00:00:00-07:00</updated><id>http://localhost:4000/2020/06/17/hiking-dress</id><content type="html" xml:base="http://localhost:4000/2020/06/17/hiking-dress.html">&lt;p&gt;I wanted to make a dress for a friend that is too tall and broad-shouldered for most dresses– furthermore, I wanted the material to be good for hiking: light, quickdrying, and breathable. Apparently &lt;a href=&quot;https://www.rockywoods.com/Supplex-Nylon-Fabric-Rust&quot; target=&quot;_blank&quot;&gt;taslanated nylon&lt;/a&gt; is a material with these properties, commonly used to make various outdoor clothing. I turned a &lt;a href=&quot;https://sewguide.com/a-line-dress-pattern/#method_2_a_simple_a_line_dress_with_neck_binding&quot; target=&quot;_blank&quot;&gt;sewing guide&lt;/a&gt; for a simple A-line dress into an R script that builds a dress pattern from 3 simple body measurements. After inputing height, bust, and shoulder measurements, the program (which you can access/use &lt;a href=&quot;https://avephill.shinyapps.io/Auto_Dress_Pattern/&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;) produces something like this:
+&lt;img src=&quot;/assets/images/dress_1.png&quot; alt=&quot;Placeholder&quot; /&gt;
+This can then be mapped onto parchment paper and cut out to form a pattern:
+&lt;img src=&quot;/assets/images/dress_2.jpeg&quot; alt=&quot;Placeholder&quot; /&gt;
+After cutting out the material from the patterns, I sewed the top of the shoulders, and down the sides of the dress, and added &lt;a href=&quot;https://en.wikipedia.org/wiki/Bias_tape&quot; target=&quot;_blank&quot;&gt;bias tape&lt;/a&gt; to the neckline and arm holes. I finished by hemming the bottom to the desired height.&lt;/p&gt;</content><author><name>Avery Hill</name><email>apaytonhill@gmail.com</email></author><category term="programming" /><category term="sewing" /><summary type="html">I wanted to make a dress for a friend that is too tall and broad-shouldered for most dresses– furthermore, I wanted the material to be good for hiking: light, quickdrying, and breathable. Apparently taslanated nylon is a material with these properties, commonly used to make various outdoor clothing. I turned a sewing guide for a simple A-line dress into an R script that builds a dress pattern from 3 simple body measurements. After inputing height, bust, and shoulder measurements, the program (which you can access/use here) produces something like this: This can then be mapped onto parchment paper and cut out to form a pattern: After cutting out the material from the patterns, I sewed the top of the shoulders, and down the sides of the dress, and added bias tape to the neckline and arm holes. I finished by hemming the bottom to the desired height.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/dress_title.jpeg" /><media:content medium="image" url="http://localhost:4000/assets/images/dress_title.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Plant Species Flashcards</title><link href="http://localhost:4000/2019/03/16/plant-slideshow.html" rel="alternate" type="text/html" title="Plant Species Flashcards" /><published>2019-03-16T00:00:00-07:00</published><updated>2019-03-16T00:00:00-07:00</updated><id>http://localhost:4000/2019/03/16/plant-slideshow</id><content type="html" xml:base="http://localhost:4000/2019/03/16/plant-slideshow.html">&lt;p&gt;This is a javascript flashcard program that helps a person learn plant species in a particular geographic area. It uses an R script to build the image directories and csv files necessary for the flashcard program to work.
+The flashcards are grouped by 10 plants so that a user can learn a few plants before moving on to the next group.&lt;/p&gt;
+
+&lt;p&gt;The front of each card looks like:
+&lt;img src=&quot;/assets/images/pshow_1.png&quot; alt=&quot;Flashcard Front&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;And back:
+&lt;img src=&quot;/assets/images/pshow_2.png&quot; alt=&quot;Flashcard Back&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;If you’re interested in messing around with an incomplete but functional(\?) version you can do so &lt;a href=&quot;/flashcard&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;All images are stitched together from &lt;a href=&quot;https://calflora.org&quot; target=&quot;_blank&quot;&gt;CalFlora&lt;/a&gt;.&lt;/p&gt;</content><author><name>Avery Hill</name><email>apaytonhill@gmail.com</email></author><category term="programming" /><category term="botany" /><summary type="html">This is a javascript flashcard program that helps a person learn plant species in a particular geographic area. It uses an R script to build the image directories and csv files necessary for the flashcard program to work. The flashcards are grouped by 10 plants so that a user can learn a few plants before moving on to the next group.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/assets/images/pshow_title.png" /><media:content medium="image" url="http://localhost:4000/assets/images/pshow_title.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
