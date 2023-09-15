@@ -8,7 +8,7 @@ image: /assets/images/headshot4.jpg
 
 
 <figure>
-  <img src="{{site.url}}/assets/images/homepage.jpeg" alt="my alt text"/>
+  <img src="/assets/images/homepage.jpeg"/>
   <figcaption>Eastern Sierras, near Bridgeport, CA.</figcaption>
 </figure>
 
