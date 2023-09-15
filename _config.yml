@@ -14,7 +14,7 @@ description: >
 
 theme: minima
 url: "https://avephill.com"
-baseurl: "https://avephill.com"
+# baseurl: "https://avephill.com"
 destination: docs/
 
 plugins:
