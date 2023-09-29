@@ -63,7 +63,7 @@ I'm working with a group of Stanford students and postdocs, funded by the [McCoy
   
   * <span>Hill, A. P. & Hadly, E. A. [Rethinking “Native” in the Anthropocene.](https://doi.org/10.3389/feart.2018.00096) *Front. Earth Sci.* 6, 96 (2018)</span>
 
-<br>
+<!-- <br>
 
 ### In the Media
 
@@ -83,5 +83,5 @@ I'm working with a group of Stanford students and postdocs, funded by the [McCoy
 
   * <span>[Stanford researchers reveal how wildfire accelerates forest changes](https://news.stanford.edu/2021/11/15/trees-on-the-move/) *Stanford News* (2021)</span>
 
-  * <span>[Global Study Finds Adaptation Progress Local Not Societal](https://www.kneedeeptimes.org/global-study-finds-adaptation-progress-local-not-societal/) *Knee-deep Times* (2021)</span>
+  * <span>[Global Study Finds Adaptation Progress Local Not Societal](https://www.kneedeeptimes.org/global-study-finds-adaptation-progress-local-not-societal/) *Knee-deep Times* (2021)</span> -->
 

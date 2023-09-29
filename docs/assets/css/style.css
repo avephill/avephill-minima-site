@@ -591,3 +591,13 @@ table {
       border: 0px solid #e8e8e8; }
       .social-media-list li a:hover, .pagination li a:hover {
         border-color: #dbdbdb; }
+
+.page-link {
+  color: #111111;
+  line-height: 1.5;
+  font-size: 18px;
+  display: block;
+  padding: 5px 10px;
+  margin-left: 20px; }
+  .page-link:not(:last-child) {
+    margin-right: 0; }
